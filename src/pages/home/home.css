@@ -1,0 +1,25 @@
+.userTitleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.home {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.spinner {
+  justify-content: center;
+  align-items: center;
+  margin-top: 180px;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
