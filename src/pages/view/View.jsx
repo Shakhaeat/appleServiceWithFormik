@@ -99,12 +99,12 @@ const View = () => {
               <div className="col-8">
                 <label> Name:</label>
                 <span className="value-control">
-                  {invoice.customer_name ?? ""}
+                  {invoice.customerName ?? ""}
                 </span>
               </div>
               <div className="col-4">
                 <label>Cell: </label>
-                <span className="value-control">{invoice.phone_no ?? ""}</span>
+                <span className="value-control">{invoice.phoneNo ?? ""}</span>
               </div>
             </div>
             <div className="row">
@@ -121,7 +121,7 @@ const View = () => {
                 </div>
                 <div className="mt-1">
                   <sapn className="value-control-area">
-                    {invoice.product_name ?? ""}
+                    {invoice.productName ?? ""}
                   </sapn>
                 </div>
               </div>
@@ -132,7 +132,7 @@ const View = () => {
                 </div>
                 <div className="mt-1">
                   <sapn className="value-control-area">
-                    {invoice.product_problem ?? ""}
+                    {invoice.productProblem ?? ""}
                   </sapn>
                 </div>
               </div>
@@ -142,7 +142,7 @@ const View = () => {
               <div className="col-5 col-sm-5">
                 <label>Qty </label>
                 <span className="control-value">
-                  {invoice.product_qty ?? ""}
+                  {invoice.productQty ?? ""}
                 </span>
               </div>
 
@@ -157,22 +157,23 @@ const View = () => {
             <div className="row">
               <div className="col-5">
                 <label>Advance </label>
-                <span className="control-value">{invoice.advance ?? ""}</span>
+                <span className="control-value">{invoice.advance ?? 0}</span>
               </div>
             </div>
             <div className="row">
               <div className="col-5">
                 <label>Due </label>
-                <span className="control-value">{invoice.due ?? ""}</span>
+                <span className="control-value">{invoice.due ?? 0}</span>
               </div>
             </div>
             <div style={{ display: "none" }}>
               <Print ref={componentRef} id={id} />
             </div>
-
-            <button className="btn btn-info" onClick={handlePrint}>
-              Print{" "}
-            </button>
+            <div className="center">
+              <button className="btn btn-info mt-1" onClick={handlePrint}>
+                Print{" "}
+              </button>
+            </div>
           </div>
         </div>
       )}

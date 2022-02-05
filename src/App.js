@@ -8,15 +8,22 @@ import Home from "./pages/home/Home";
 import Register from "./pages/register/Register";
 import Create from "./pages/create/Create";
 import View from "./pages/view/View";
-import Edit from "./pages/edit/Edit";
+// import Edit from "./pages/edit/Edit";
 import AuthService from "./services/auth.service";
 import NotFound from "./pages/notFound/NotFound";
 import PrivateRoute from "./PrivateRoute";
 import { AuthContext } from "./context/authContext";
 import user from "./services/auth.service";
 
+//For notification using react-toastify
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+// import Print from "./pages/print/Print";
+
 function App() {
-  const [authTokens, setAuthTokens] = useState(localStorage.getItem("user"));
+  const [authTokens, setAuthTokens] = useState(
+    JSON.parse(localStorage.getItem("user"))
+  );
   const [currentUser, setCurrentUser] = useState("");
 
   const setTokens = () => {
@@ -59,15 +66,17 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route exact path="/" element={<PrivateRoute />}>
               <Route exact path="/" element={<Home />} />
-              <Route exact path="/create" element={<Create />} />
-              <Route exact path="/viewInvoice/:id" element={<View />} />
-              <Route exact path="/editInvoice/:id" element={<Edit />} />
+              <Route path="/create" element={<Create />} />
+              <Route path="/viewInvoice/:id" element={<View />} />
+              <Route path="/editInvoice/:id" element={<Create />} />
             </Route>
 
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </Router>
+
+      <ToastContainer autoClose={1000} />
     </AuthContext.Provider>
   );
 }

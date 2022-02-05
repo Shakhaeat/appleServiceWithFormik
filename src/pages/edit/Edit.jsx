@@ -20,6 +20,8 @@ const Edit = () => {
 
   const [invoice, setInvoice] = useState(initialState);
   const { id } = useParams();
+  const isAddMode = !id;
+  console.log(isAddMode);
 
   const getInvoice = (id) => {
     AppleService.getInvoice(id).then((respose) => {

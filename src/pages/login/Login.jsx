@@ -9,20 +9,14 @@ import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
+import { toast } from "react-toastify";
+
 export default function Login() {
+  const isAuthenticated = useAuth();
+
   const [isLoggedIn, setLoggedIn] = useState(false);
-  // const [isError, setIsError] = useState(false);
+  const [isError, setIsError] = useState(false);
   const { setAuthTokens } = useAuth();
-
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [redirect, setRedirect] = useState(false);
-
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormValues({ ...formValues, [name]: value });
-  //   console.log(formValues);
-  // };
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("Email is required").email("Email is invalid"),
@@ -41,27 +35,38 @@ export default function Login() {
     // validateOnChange: false,
     // validateOnBlur: false,
     onSubmit: async (data) => {
-      console.log(JSON.stringify(data, null, 2));
+      // console.log(JSON.stringify(data, null, 2));
       // e.preventDefault();
+      // toast("Wow so easy !");
+
       await AuthService.login(data.email, data.password)
         .then((result) => {
           // console.log(result);
           if (result) {
+            toast.success("Login Successful !", {
+              position: toast.POSITION.TOP_CENTER,
+            });
             setAuthTokens(true);
             setLoggedIn(true);
           } else {
-            setLoggedIn(false);
+            setLoggedIn(true);
           }
           // setRedirect(true);
         })
         .catch((e) => {
-          console.log(e);
+          // console.log(e);
+          // toast.error("Login Unsuccessful !", {
+          //   position: toast.POSITION.TOP_CENTER,
+          // });
+          setIsError(e);
         });
     },
   });
-  // console.log(formik.values);
+  // console.log(formik);
 
   if (isLoggedIn) {
+    return <Navigate to="/" />;
+  } else if (isAuthenticated.authTokens) {
     return <Navigate to="/" />;
   }
 
@@ -82,6 +87,25 @@ export default function Login() {
                 alt="profile"
               />
             </div>
+            {isError ? (
+              <div
+                className="alert alert-danger alert-dismissible fade show"
+                role="alert"
+              >
+                Invalid email/pasword
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="alert"
+                  aria-label="Close"
+                  onClick={() => setIsError(false)}
+                >
+                  &times;
+                </button>
+              </div>
+            ) : (
+              <div></div>
+            )}
 
             <div className="mb-3">
               <input

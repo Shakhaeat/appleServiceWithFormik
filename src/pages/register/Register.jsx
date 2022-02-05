@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import AuthService from "../../services/auth.service";
 import { Navigate } from "react-router-dom";
 import "./register.css";
+import { useAuth } from "../../context/authContext";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { toast } from "react-toastify";
 
 export default function Register() {
   const [redirect, setRedirect] = useState(false);
+  const isAuthenticated = useAuth();
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Fullname is required"),
@@ -30,10 +33,11 @@ export default function Register() {
       confirmPassword: "",
     },
     validationSchema,
-    // validateOnChange: false,
-    // validateOnBlur: false,
+    validateOnChange: false,
+    validateOnBlur: false,
     onSubmit: async (data) => {
-      console.log(JSON.stringify(data, null, 2));
+      // console.log(JSON.stringify(data, null, 2));
+      // alert("jhfgh");
       await AuthService.register(
         data.name,
         data.email,
@@ -41,7 +45,10 @@ export default function Register() {
         data.confirmPassword
       )
         .then((response) => {
-          // console.log(response);
+          toast.success("Success Notification !", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          console.log(response);
           setRedirect(true);
         })
         .catch((e) => {
@@ -51,6 +58,8 @@ export default function Register() {
   });
   if (redirect) {
     return <Navigate to="/login" />;
+  } else if (isAuthenticated.authTokens) {
+    return <Navigate to="/" />;
   }
 
   return (
